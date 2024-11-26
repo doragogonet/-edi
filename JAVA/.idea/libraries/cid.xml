@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="cid">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/ebs-business/lib/cid.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

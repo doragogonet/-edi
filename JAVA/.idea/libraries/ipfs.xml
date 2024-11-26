@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="ipfs">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/ebs-business/lib/ipfs.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

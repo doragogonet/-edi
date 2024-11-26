@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ebs.business.mapper.EleReportMapper">
+
+    <resultMap type="EleReport" id="EleReportResult">
+        <result property="cid1"    column="cid1"    />
+        <result property="cid2"    column="cid2"    />
+        <result property="cid3"    column="cid3"    />
+        <result property="reportUrl1"    column="report_url1"    />
+        <result property="reportUrl2"    column="report_url2"    />
+        <result property="sendDate"    column="send_date"    />
+        <result property="replyDate"    column="reply_date"    />
+        <result property="decryptionCode"    column="decryption_code"    />
+        <result property="stampCode"    column="stamp_code"    />
+        <result property="sendToListId"    column="send_to_list_id"    />
+        <result property="sendToName"    column="send_to_name"    />
+        <result property="status"    column="status"    />
+        <result property="reportTypeName"    column="report_type_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="reportTitle"    column="report_title"    />
+        <result property="reportRemark"    column="report_remark"    />
+        <result property="fileName"    column="file_name"    />
+    </resultMap>
+
+    <sql id="selectEleReportVo">
+        select cid1, cid2, cid3, report_url1, report_url2, send_date, reply_date, decryption_code, stamp_code, send_to_list_id, send_to_name, status, report_type_name, create_by, create_time,report_title,report_remark,file_name
+        from ele_report
+    </sql>
+
+    <select id="selectEleReportList" parameterType="EleReport" resultMap="EleReportResult">
+        <include refid="selectEleReportVo"/>
+        <where>
+            and status != 9   <!-- sxt 20240401 add -->
+            <if test="cid1 != null  and cid1 != ''"> and cid1 = #{cid1}</if>
+            <if test="cid2 != null  and cid2 != ''"> and cid2 = #{cid2}</if>
+            <if test="cid3 != null  and cid3 != ''"> and cid3 = #{cid3}</if>
+            <if test="reportUrl1 != null  and reportUrl1 != ''"> and report_url1 = #{reportUrl1}</if>
+            <if test="reportUrl2 != null  and reportUrl2 != ''"> and report_url2 = #{reportUrl2}</if>
+            <if test="sendDate != null  and sendDate != ''"> and send_date = #{sendDate}</if>
+            <if test="replyDate != null  and replyDate != ''"> and reply_date = #{replyDate}</if>
+            <if test="decryptionCode != null  and decryptionCode != ''"> and decryption_code = #{decryptionCode}</if>
+            <if test="stampCode != null  and stampCode != ''"> and stamp_code = #{stampCode}</if>
+            <if test="sendToListId != null"> and send_to_list_id = #{sendToListId}</if>
+            <if test="sendToName != null  and sendToName != ''"> and send_to_name like concat('%', #{sendToName}, '%')</if>
+            <!--<if test="status != null  and status != ''"> and status = #{status}</if>-->    <!-- sxt 20240401 del -->
+            <if test="reportTypeName != null  and reportTypeName != ''"> and report_type_name = #{reportTypeName}</if>
+            <if test="reportTitle != null and reportTitle != ''"> and report_title = #{reportTitle}</if>
+            <if test="reportRemark != null and reportRemark != ''"> and report_remark = #{reportRemark}</if>
+            <if test="fileName != null and fileName != ''"> and file_name = #{fileName}</if>
+        </where>
+        order by send_date desc
+    </select>
+
+    <select id="selectEleReportListBySendToListId" parameterType="Long" resultMap="EleReportResult">
+        <include refid="selectEleReportVo"/>
+        where send_to_list_id = #{sendToListId}
+    </select>
+
+    <select id="selectEleReportByStampCode" parameterType="String" resultMap="EleReportResult">
+        <include refid="selectEleReportVo"/>
+        where stamp_code = #{stampCode}
+    </select>
+
+    <insert id="insertEleReport" parameterType="EleReport">
+        insert into ele_report
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cid1 != null">cid1,</if>
+            <if test="cid2 != null and cid2 != ''">cid2,</if>
+            <if test="cid3 != null and cid3 != ''">cid3,</if>
+            <if test="reportUrl1 != null and reportUrl1 != ''">report_url1,</if>
+            <if test="reportUrl2 != null and reportUrl2 != ''">report_url2,</if>
+            <if test="sendDate != null">send_date,</if>
+            <if test="replyDate != null">reply_date,</if>
+            <if test="decryptionCode != null and decryptionCode != ''">decryption_code,</if>
+            <if test="stampCode != null and stampCode != ''">stamp_code,</if>
+            <if test="sendToListId != null">send_to_list_id,</if>
+            <if test="sendToName != null and sendToName != ''">send_to_name,</if>
+            <if test="status != null and status != ''">status,</if>
+            <if test="reportTypeName != null and reportTypeName != ''">report_type_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="reportTitle != null and reportTitle != ''">report_title,</if>
+            <if test="reportRemark != null and reportRemark != ''">report_remark,</if>
+            <if test="fileName != null and fileName != ''">file_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cid1 != null">#{cid1},</if>
+            <if test="cid2 != null and cid2 != ''">#{cid2},</if>
+            <if test="cid3 != null and cid3 != ''">#{cid3},</if>
+            <if test="reportUrl1 != null and reportUrl1 != ''">#{reportUrl1},</if>
+            <if test="reportUrl2 != null and reportUrl2 != ''">#{reportUrl2},</if>
+            <if test="sendDate != null">#{sendDate},</if>
+            <if test="replyDate != null">#{replyDate},</if>
+            <if test="decryptionCode != null and decryptionCode != ''">#{decryptionCode},</if>
+            <if test="stampCode != null and stampCode != ''">#{stampCode},</if>
+            <if test="sendToListId != null">#{sendToListId},</if>
+            <if test="sendToName != null and sendToName != ''">#{sendToName},</if>
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="reportTypeName != null and reportTypeName != ''">#{reportTypeName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="reportTitle != null and reportTitle != ''">#{reportTitle},</if>
+            <if test="reportRemark != null and reportRemark != ''">#{reportRemark},</if>
+            <if test="fileName != null and fileName != ''">#{fileName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEleReport" parameterType="EleReport">
+        update ele_report
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cid2 != null and cid2 != ''">cid2 = #{cid2},</if>
+            <if test="cid3 != null and cid3 != ''">cid3 = #{cid3},</if>
+            <if test="reportUrl1 != null and reportUrl1 != ''">report_url1 = #{reportUrl1},</if>
+            <if test="reportUrl2 != null and reportUrl2 != ''">report_url2 = #{reportUrl2},</if>
+            <if test="sendDate != null">send_date = #{sendDate},</if>
+            <if test="replyDate != null">reply_date = #{replyDate},</if>
+            <if test="decryptionCode != null and decryptionCode != ''">decryption_code = #{decryptionCode},</if>
+            <if test="stampCode != null and stampCode != ''">stamp_code = #{stampCode},</if>
+            <if test="sendToListId != null">send_to_List_id = #{sendToListId},</if>
+            <if test="sendToName != null and sendToName != ''">send_to_name = #{sendToName},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="reportTypeName != null and reportTypeName != ''">report_type_name = #{reportTypeName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="reportTitle != null and reportTitle != ''">report_title = #{reportTitle},</if>
+            <if test="reportRemark != null and reportRemark != ''">report_remark = #{reportRemark},</if>
+            <if test="fileName != null and fileName != ''">file_name = #{fileName},</if>
+        </trim>
+        where stamp_code = #{stampCode}
+    </update>
+
+    <delete id="deleteEleReportByCid1" parameterType="String">
+        delete from ele_report where stamp_code = #{stampCode}
+    </delete>
+
+    <delete id="deleteEleReportByCid1s" parameterType="String">
+        delete from ele_report where stamp_code in
+        <foreach item="stampCode" collection="array" open="(" separator="," close=")">
+            #{stampCode}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="multiaddr">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/ebs-business/lib/multiaddr.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

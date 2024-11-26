@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="multibase">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/ebs-business/lib/multibase.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
